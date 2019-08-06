@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MVP DemoSeries</string>
+    <string name="serieBuscarSeries">Serie a buscar...</string>
+    <string name="titulo">Nombre de la Serie</string>
+</resources>

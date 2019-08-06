@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewAlbumes"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="8dp"
+    cardview:cardCornerRadius="@dimen/cardview_default_elevation"
+    cardview:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgActorImage"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/back_gray"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/txtActorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Nombre actor"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/txtActorRol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Personaje"
+            android:textColor="@android:color/black" />
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
