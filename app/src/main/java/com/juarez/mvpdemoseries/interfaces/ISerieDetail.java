@@ -13,7 +13,7 @@ import java.util.List;
 public interface ISerieDetail {
 
     interface model {
-        //service 2 get serie details 1
+        //service 1 get serie details 1
         void cancelService();
 
         void getSerieDetail1(String token, int id);

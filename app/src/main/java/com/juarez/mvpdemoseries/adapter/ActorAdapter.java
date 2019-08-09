@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.juarez.mvpdemoseries.R;
 import com.juarez.mvpdemoseries.model.entity.Actor;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(final ActorAdapter.ViewHolder holder, final int position) {
         // - obtiene los elementos del dataset en una posicion definida
-        Glide.with(mContext)
+        Picasso.get()
                 .load(endpointBanner + mDataset.get(position).getImage())
                 .placeholder(R.drawable.toolbar_mediomelon)
                 .into(holder.actorPhoto);

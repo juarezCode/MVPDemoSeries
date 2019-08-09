@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.juarez.mvpdemoseries.R;
 import com.juarez.mvpdemoseries.model.entity.Serie;
 import com.juarez.mvpdemoseries.view.activity.DetailActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -56,7 +57,7 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SerieAdapter.ViewHolder holder, final int position) {
-        Glide.with(mContext)
+        Picasso.get()
                 .load(endpointBanner + mDataset.get(position).getBanner())
                 .placeholder(R.drawable.banner_mediomelon)
                 .into(holder.photo);

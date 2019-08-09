@@ -16,6 +16,7 @@ import com.juarez.mvpdemoseries.interfaces.IDetail;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail1;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail2;
 import com.juarez.mvpdemoseries.presenter.DetailPresenter;
+import com.squareup.picasso.Picasso;
 
 
 import butterknife.BindView;
@@ -114,10 +115,10 @@ public class SerieDetailFragment extends Fragment implements IDetail.view {
         if (serieDetail2.getPoster() == null) {
 
         } else {
-            Glide.with(getContext())
-                    .load(serieDetail2.getPoster())
-                    .placeholder(R.drawable.toolbar_mediomelon)
-                    .into(imageSerie);
+            Picasso.get()
+                .load(serieDetail2.getPoster())
+                .into(imageSerie);
+
         }
 
         Log.e(TAG, "servicio 2, carga de datos correcto");
