@@ -1,7 +1,5 @@
 package com.juarez.mvpdemoseries.model.entity;
 
-import com.juarez.mvpdemoseries.model.entity.Actor;
-
 import java.util.List;
 
 public class SerieActorData {

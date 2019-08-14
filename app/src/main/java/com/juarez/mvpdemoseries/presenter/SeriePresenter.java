@@ -1,16 +1,16 @@
 package com.juarez.mvpdemoseries.presenter;
 
 import com.juarez.mvpdemoseries.interfaces.ISerie;
-import com.juarez.mvpdemoseries.model.entity.Serie;
 import com.juarez.mvpdemoseries.model.SerieInteractor;
+import com.juarez.mvpdemoseries.model.entity.Serie;
 
 import java.util.ArrayList;
 
-public class SeriePresenter implements ISerie.presenter {
-    private ISerie.view view;
-    private ISerie.interactor interactor;
+public class SeriePresenter implements ISerie.IPresenter {
+    private ISerie.IView view;
+    private ISerie.IInteractor interactor;
 
-    public SeriePresenter(ISerie.view view) {
+    public SeriePresenter(ISerie.IView view) {
         this.view = view;
         interactor = new SerieInteractor(this);
     }

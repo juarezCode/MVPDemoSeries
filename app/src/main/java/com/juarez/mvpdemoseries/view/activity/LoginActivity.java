@@ -2,31 +2,29 @@ package com.juarez.mvpdemoseries.view.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.juarez.mvpdemoseries.interfaces.ILogin;
 import com.juarez.mvpdemoseries.R;
+import com.juarez.mvpdemoseries.interfaces.ILogin;
 import com.juarez.mvpdemoseries.presenter.LoginPresenter;
+import com.juarez.mvpdemoseries.util.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity implements ILogin.view {
-    private ILogin.presenter presenter;
-    private String SHARED_PREFS = "sharedPrefs";
-    private String TOKEN = "token";
-    private String token;
+public class LoginActivity extends AppCompatActivity implements ILogin.IView, View.OnClickListener {
+    private ILogin.IPresenter presenter;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.btnLogin)
     Button btnLogin;
-    private String TAG = "LoginActivity";
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +32,28 @@ public class LoginActivity extends AppCompatActivity implements ILogin.view {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         presenter = new LoginPresenter(this);
+        btnLogin.setOnClickListener(this);
 
-        /* consulta si ya existe algun token
+        //consulta si ya existe algun token
         String tokenCargado = loadToken();
-        if(tokenCargado.length() > 0) {
+        if (tokenCargado.length() > 0) {
             Intent intent = new Intent(this, SeriesActivity.class);
             startActivity(intent);
         }
-        */
+
     }
 
-    public void login(View view) {
-        Log.e(TAG, "vista ->");
-        progressBar.setVisibility(View.VISIBLE);
-        btnLogin.setEnabled(false);
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnLogin) {
+            Log.e(TAG, "vista ->");
+            progressBar.setVisibility(View.VISIBLE);
+            btnLogin.setEnabled(false);
 
-        presenter.setContext(getApplicationContext());
-        presenter.getToken();
+            presenter.setContext(getApplicationContext());
+            presenter.getToken();
+        }
+
     }
 
     @Override
@@ -72,8 +75,8 @@ public class LoginActivity extends AppCompatActivity implements ILogin.view {
     }
 
     public String loadToken() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        token = sharedPreferences.getString(TOKEN, "");
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+        String token = sharedPreferences.getString(Constants.TOKEN, "");
         Log.e(TAG, "loadtoken: " + token);
         return token;
     }

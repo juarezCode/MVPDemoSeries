@@ -1,6 +1,5 @@
 package com.juarez.mvpdemoseries.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,23 +7,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.juarez.mvpdemoseries.R;
 import com.juarez.mvpdemoseries.model.entity.Actor;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder>{
-    private Context mContext;
-    private ArrayList<Actor> mDataset;
+public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.Holder>{
+
+    private List<Actor> mDataset;
     private String endpointBanner = "https://www.thetvdb.com/banners/";
 
     // viewholder accede a todas las vistas
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class Holder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
 
         @BindView(R.id.imgActorImage)
@@ -34,7 +32,7 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder>{
         @BindView(R.id.txtActorRol)
         TextView actorRol;
 
-        ViewHolder(View v) {
+        Holder(View v) {
             super(v);
             ButterKnife.bind(this,v);
 
@@ -42,26 +40,26 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder>{
     }
 
     // constructor
-    public ActorAdapter(Context context, ArrayList<Actor> myDataset) {
+    public ActorAdapter(List<Actor> myDataset) {
         mDataset = myDataset;
-        mContext = context;
+
     }
 
 
     // Crea nuevas vistas (invocadas pot el layout manager)
     @Override
-    public ActorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public ActorAdapter.Holder onCreateViewHolder(ViewGroup parent,
                                                        int viewType) {
         // crear una nueva vista
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cardview_actor, parent, false);
 
-        return new ActorAdapter.ViewHolder(v);
+        return new ActorAdapter.Holder(v);
     }
 
     // Reemplazar el contenido del layout manager
     @Override
-    public void onBindViewHolder(final ActorAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ActorAdapter.Holder holder, final int position) {
         // - obtiene los elementos del dataset en una posicion definida
         Picasso.get()
                 .load(endpointBanner + mDataset.get(position).getImage())

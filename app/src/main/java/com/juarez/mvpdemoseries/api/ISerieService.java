@@ -3,8 +3,8 @@ package com.juarez.mvpdemoseries.api;
 import com.juarez.mvpdemoseries.model.entity.SerieActorData;
 import com.juarez.mvpdemoseries.model.entity.SerieData;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail1Data;
-import com.juarez.mvpdemoseries.model.entity.SerieSeasonData;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail2;
+import com.juarez.mvpdemoseries.model.entity.SerieSeasonData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,7 +17,7 @@ public interface ISerieService {
     //servicio buscar series, por nombre
     //https://api.thetvdb.com/search/series?name=game
     @GET("search/series")
-    Call<SerieData> getSeries(@Query("name") String CharName, @Header("Authorization") String authToken);
+    Call<SerieData> getSeries(@Query("name") String searchValue, @Header("Authorization") String authToken);
 
     //servicio obtener una serie, por su id
     //https://api.thetvdb.com/series/121361
@@ -31,7 +31,7 @@ public interface ISerieService {
 
     //https://{{endpoint}}/series/:id/episodes/query?airedSeason=1
     @GET("series/{id}/episodes/query")
-    Call<SerieSeasonData> getSeason (@Path("id") int id, @Query("airedSeason") String season, @Header("Authorization") String authToken);
+    Call<SerieSeasonData> getSeason(@Path("id") int id, @Query("airedSeason") String season, @Header("Authorization") String authToken);
 
     //servicio que obtiene los actores por serie
     //https://{{endpoint}}/series/:id/actors

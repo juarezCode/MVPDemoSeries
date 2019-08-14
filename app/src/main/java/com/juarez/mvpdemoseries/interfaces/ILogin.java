@@ -3,14 +3,14 @@ package com.juarez.mvpdemoseries.interfaces;
 import android.content.Context;
 
 public interface ILogin {
-    interface model {
+    interface IModel {
         void getToken();
 
         void setContext(Context context);
 
     }
 
-    interface presenter {
+    interface IPresenter {
         void getToken();
 
         void setContext(Context context);
@@ -20,7 +20,7 @@ public interface ILogin {
         void showTokenUser(String token);
     }
 
-    interface view {
+    interface IView {
         void showErrorApi(String error);
 
         void showTokenUser(String token);

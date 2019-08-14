@@ -2,24 +2,22 @@ package com.juarez.mvpdemoseries.presenter;
 
 import com.juarez.mvpdemoseries.interfaces.IDetail;
 import com.juarez.mvpdemoseries.model.DetailInteractor;
-import com.juarez.mvpdemoseries.model.entity.Actor;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail1;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail2;
 
-import java.util.ArrayList;
+public class DetailPresenter implements IDetail.IPresenter {
 
-public class DetailPresenter implements IDetail.presenter {
+    private IDetail.IView view;
+    private IDetail.IModel interactor;
 
-    private IDetail.view view;
-    private IDetail.model interactor;
-    public DetailPresenter(IDetail.view view){
+    public DetailPresenter(IDetail.IView view) {
         this.view = view;
         interactor = new DetailInteractor(this);
     }
 
     @Override
-    public void getDetail1() {
-        interactor.getDetail1();
+    public void getDetail1(SerieDetail1 serieDetail1) {
+        interactor.getDetail1(serieDetail1);
     }
 
     @Override
@@ -28,8 +26,8 @@ public class DetailPresenter implements IDetail.presenter {
     }
 
     @Override
-    public void getDetail2() {
-        interactor.getDetail2();
+    public void getDetail2(SerieDetail2 serieDetail2) {
+        interactor.getDetail2(serieDetail2);
     }
 
     @Override

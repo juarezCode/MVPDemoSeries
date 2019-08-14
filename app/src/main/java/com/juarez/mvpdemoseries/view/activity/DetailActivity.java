@@ -1,12 +1,12 @@
 package com.juarez.mvpdemoseries.view.activity;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.juarez.mvpdemoseries.R;
-import com.juarez.mvpdemoseries.interfaces.IActor;
 import com.juarez.mvpdemoseries.interfaces.ISerieDetail;
 import com.juarez.mvpdemoseries.model.entity.Actor;
 import com.juarez.mvpdemoseries.model.entity.Episode;
@@ -22,26 +21,22 @@ import com.juarez.mvpdemoseries.model.entity.Serie;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail1;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail2;
 import com.juarez.mvpdemoseries.presenter.SerieDetailPresenter;
+import com.juarez.mvpdemoseries.util.Constants;
 import com.juarez.mvpdemoseries.view.fragment.SerieActorFragment;
 import com.juarez.mvpdemoseries.view.fragment.SerieDetailFragment;
 import com.juarez.mvpdemoseries.view.fragment.SerieEpisodeFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements ISerieDetail.view {
-    private ISerieDetail.presenter presenter;
+public class DetailActivity extends AppCompatActivity implements ISerieDetail.IView {
+    private ISerieDetail.IPresenter presenter;
 
-    private static final String SHARED_PREFS = "sharedPrefs";
-    private static final String TOKEN = "token";
-    private static final String PLOT = "full";
-    private final String apikey = "2f1f55d7";
-    public static final String endpointSeason = "api.thetvdb.com";
+
     private String token;
-    private String imdbId;
-    public static int totalSeasons;
     @BindView(R.id.detailSeriesName)
     TextView detailSeriesName;
     private BottomNavigationView bottomNavigation;
@@ -53,15 +48,40 @@ public class DetailActivity extends AppCompatActivity implements ISerieDetail.vi
     Button rigth;
     private Fragment fragment;
     private FragmentManager fragmentManager;
-    private String TAG = "DetailActivity";
-    public static String dataSeriesName;
-    public static int idSerie;
-    private Serie serie;
-    public static SerieDetail1 serieDetail1;
-    public static SerieDetail2 serieDetail2;
-    public static ArrayList<Episode> listEpisodes;
-    public static ArrayList<Actor> listActors;
+    private static final String TAG = "DetailActivity";
 
+    //vaiables publicas y estaticas
+    private int totalSeasons;
+    private int idSerie;
+    private SerieDetail1 serieDetail1;
+    private SerieDetail2 serieDetail2;
+    private List<Episode> listEpisodes;
+    private List<Actor> listActors;
+
+
+    public int getId() {
+        return idSerie;
+    }
+
+    public int getTotalSeasons() {
+        return totalSeasons;
+    }
+
+    public SerieDetail1 getSerieDetail1() {
+        return serieDetail1;
+    }
+
+    public SerieDetail2 getSerieDetail2() {
+        return serieDetail2;
+    }
+
+    public List<Episode> getListEpisodes() {
+        return listEpisodes;
+    }
+
+public List<Actor> getListActors() {
+        return listActors;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +94,8 @@ public class DetailActivity extends AppCompatActivity implements ISerieDetail.vi
         rigth.setVisibility(View.VISIBLE);
 
         //recibir  datos
-        serie = (Serie) getIntent().getExtras().getSerializable("serie");
-        dataSeriesName = serie.getSeriesName();
+        Serie serie = (Serie) getIntent().getExtras().getSerializable("serie");
+        String dataSeriesName = serie.getSeriesName();
         idSerie = serie.getId();
         Log.e(TAG, "id de la serie: " + idSerie);
 
@@ -97,6 +117,9 @@ public class DetailActivity extends AppCompatActivity implements ISerieDetail.vi
                     break;
                 case R.id.seriesActorItem:
                     fragment = new SerieActorFragment();
+                    break;
+                default:
+                    fragment = new SerieDetailFragment();
                     break;
             }
             final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -122,7 +145,7 @@ public class DetailActivity extends AppCompatActivity implements ISerieDetail.vi
             this.serieDetail1 = serieDetail1;
 
             //si el imdbId es vacio (no hay imdbID) aqui se termina los servicios
-            if(!imdbId.isEmpty())
+            if (!imdbId.isEmpty())
                 getSerieDetail2(token, imdbId);
         }
     }
@@ -137,7 +160,7 @@ public class DetailActivity extends AppCompatActivity implements ISerieDetail.vi
         serieDetail2 = serie;
         this.totalSeasons = totalSeasons;
 
-        getEpisodes(idSerie, 1 , token);
+        getEpisodes(idSerie, 1, token);
     }
 
     @Override
@@ -169,8 +192,7 @@ public class DetailActivity extends AppCompatActivity implements ISerieDetail.vi
 
     @Override
     public void showErrorNotFound(String notFound) {
-        //Toast.makeText(this, notFound, Toast.LENGTH_SHORT).show();
-        Log.e(TAG,notFound);
+        Log.e(TAG, notFound);
     }
 
     @Override
@@ -203,18 +225,15 @@ public class DetailActivity extends AppCompatActivity implements ISerieDetail.vi
 
     //carga el token guardado, para usarlo con los servicios
     private void loadToken() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        token = sharedPreferences.getString(TOKEN, "");
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+        token = sharedPreferences.getString(Constants.TOKEN, "");
         Log.e(TAG, "loadtoken: " + token);
 
     }
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         presenter.cancelService();
-        //Toast.makeText(getApplicationContext(), "Usa el boton de arriba jeje", Toast.LENGTH_SHORT).show();
-
     }
 
 }

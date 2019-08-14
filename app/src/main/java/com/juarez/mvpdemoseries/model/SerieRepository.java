@@ -13,14 +13,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SerieRepository implements ISerie.repository {
-    private ISerie.presenter presenter;
+public class SerieRepository implements ISerie.IRepository {
+    private ISerie.IPresenter presenter;
+    private static final String TAG = "SerieInteractor";
+    private ArrayList<Serie> listSeries;
 
-    private String endpoint = "api.thetvdb.com";
-    private String TAG = "SerieInteractor";
-    public ArrayList<Serie> listSeries;
-
-    public SerieRepository(ISerie.presenter presenter){
+    public SerieRepository(ISerie.IPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -50,7 +48,7 @@ public class SerieRepository implements ISerie.repository {
                     Log.e(TAG, String.valueOf(response.body().getSeries()));
                     for (Serie serie : response.body().getSeries()) {
 
-                        Log.e(TAG,"nombre de la serie: "+serie.getSeriesName());
+                        Log.e(TAG, "nombre de la serie: " + serie.getSeriesName());
                         listSeries.add(serie);
                     }
                     presenter.showSeries(listSeries);

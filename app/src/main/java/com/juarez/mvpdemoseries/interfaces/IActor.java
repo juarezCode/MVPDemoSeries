@@ -2,28 +2,28 @@ package com.juarez.mvpdemoseries.interfaces;
 
 import com.juarez.mvpdemoseries.model.entity.Actor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IActor {
 
-    interface model {
-        void getActors();
+    interface IModel {
+        void getActors(List<Actor> listActors);
     }
 
-    interface presenter {
-        void getActors();
+    interface IPresenter {
+        void getActors(List<Actor> listActors);
 
         void showErrorNotFound(String error);
 
-        void showActors(ArrayList<Actor> listActors);
+        void showActors(List<Actor> listActors);
     }
 
-    interface view {
-        void getActors();
+    interface IView {
+        void getActors(List<Actor> listActors);
 
         void showErrorNotFound(String error);
 
-        void showActors(ArrayList<Actor> listActors);
+        void showActors(List<Actor> listActors);
     }
 
 }

@@ -11,35 +11,34 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.juarez.mvpdemoseries.R;
 import com.juarez.mvpdemoseries.model.entity.Serie;
 import com.juarez.mvpdemoseries.view.activity.DetailActivity;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder> {
+public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.Holder> {
     private Context mContext;
-    private ArrayList<Serie> mDataset;
+    private List<Serie> mDataset;
     private String endpointBanner = "https://www.thetvdb.com/banners/";
 
     // constructor
-    public SerieAdapter(Context context, ArrayList<Serie> myDataset) {
+    public SerieAdapter(Context context, List<Serie> myDataset) {
         mDataset = myDataset;
         mContext = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class Holder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageSeriesBack)
         ImageView photo;
         @BindView(R.id.txtSeriesName)
         TextView serieName;
-        ViewHolder(View v) {
+        Holder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
@@ -48,33 +47,30 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public SerieAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public SerieAdapter.Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.cardview_series, viewGroup, false);
 
-        return new SerieAdapter.ViewHolder(v);
+        return new SerieAdapter.Holder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SerieAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull SerieAdapter.Holder holder, final int position) {
         Picasso.get()
                 .load(endpointBanner + mDataset.get(position).getBanner())
                 .placeholder(R.drawable.banner_mediomelon)
                 .into(holder.photo);
         holder.serieName.setText(mDataset.get(position).getSeriesName());
         //lanzar a pantalla detalles de serie
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("Adapter", "id: " + mDataset.get(position).getId());
+        holder.itemView.setOnClickListener(v -> {
+            Log.e("Adapter", "id: " + mDataset.get(position).getId());
 
 
-                Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                intent.putExtra("seriesName", mDataset.get(position).getSeriesName());
-                intent.putExtra("serie", mDataset.get(position));
-                mContext.startActivity(intent);
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra("seriesName", mDataset.get(position).getSeriesName());
+            intent.putExtra("serie", mDataset.get(position));
+            mContext.startActivity(intent);
 
-            }
         });
 
     }

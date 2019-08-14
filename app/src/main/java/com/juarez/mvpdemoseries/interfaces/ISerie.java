@@ -5,19 +5,19 @@ import com.juarez.mvpdemoseries.model.entity.Serie;
 import java.util.ArrayList;
 
 public interface ISerie {
-    interface  repository{
+    interface IRepository {
         void cleanAdapter();
 
         void getSeriesApi(String token, String search);
     }
 
-    interface interactor {
+    interface IInteractor {
         void cleanAdapter();
 
         void getSeries(String token, String search);
     }
 
-    interface presenter {
+    interface IPresenter {
         void getSeries(String token, String search);
 
         void cleanAdapter();
@@ -31,7 +31,7 @@ public interface ISerie {
         void showSeries(ArrayList<Serie> listSeries);
     }
 
-    interface view {
+    interface IView {
         void showErrorNotFound(String notFound);
 
         void showErrorNotAuthorized(String notAuthorized);

@@ -1,68 +1,62 @@
 package com.juarez.mvpdemoseries.model;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.juarez.mvpdemoseries.api.ServiceClient;
-import com.juarez.mvpdemoseries.interfaces.IActor;
 import com.juarez.mvpdemoseries.interfaces.ISerieDetail;
 import com.juarez.mvpdemoseries.model.entity.Actor;
 import com.juarez.mvpdemoseries.model.entity.Episode;
 import com.juarez.mvpdemoseries.model.entity.SerieActorData;
-import com.juarez.mvpdemoseries.model.entity.SerieDetail1;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail1Data;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail2;
 import com.juarez.mvpdemoseries.model.entity.SerieSeasonData;
+import com.juarez.mvpdemoseries.util.Constants;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SerieDetailInteractor implements ISerieDetail.model {
+public class SerieDetailInteractor implements ISerieDetail.IModel {
 
-    private ISerieDetail.presenter presenter;
-    private String TAG = "DetailActivity";
-    public static SerieDetail1 ObjSerie;
+    private ISerieDetail.IPresenter presenter;
+    private static final String TAG = "DetailActivity";
     private String imdbId;
-    Call<SerieDetail1Data> call1;
-    Call<SerieDetail2> call2;
-    Call<SerieSeasonData> call3;
-    Call<SerieActorData> call4;
+    private Call<SerieDetail1Data> call1;
+    private Call<SerieDetail2> call2;
+    private Call<SerieSeasonData> call3;
+    private Call<SerieActorData> call4;
     private ArrayList<Episode> listEpisodes;
     private ArrayList<Actor> listActors;
     private static final String PLOT = "full";
-    private final String apikey = "2f1f55d7";
-    public int totalSeasons;
+    private static final String APIKEY = "2f1f55d7";
+    private int totalSeasons;
 
-    public SerieDetailInteractor(ISerieDetail.presenter presenter) {
+    public SerieDetailInteractor(ISerieDetail.IPresenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
     public void cancelService() {
         call1.cancel();
-        if(call2 != null)
+        if (call2 != null)
             call2.cancel();
-        if(call3 != null)
+        if (call3 != null)
             call3.cancel();
-        if(call4 != null)
+        if (call4 != null)
             call4.cancel();
-        Log.e(TAG,"servicio cancelado");
+        Log.e(TAG, "servicio cancelado");
         presenter.finishSerieActivity();
     }
 
     @Override
     public void getSerieDetail1(String token, int id) {
 
-        Log.e(TAG,"token "+token+" id: "+id);
+        Log.e(TAG, "token " + token + " id: " + id);
         //comfig Retrofit
-        SerieDetail1Data data = new SerieDetail1Data();
 
-        call1 = ServiceClient.createSerieService().getDetailSerie(id, "Bearer " + token);
+        call1 = ServiceClient.createSerieService().getDetailSerie(id, Constants.BEARER + token);
         call1.enqueue(new Callback<SerieDetail1Data>() {
             @Override
             public void onResponse(Call<SerieDetail1Data> call, Response<SerieDetail1Data> response) {
@@ -88,11 +82,11 @@ public class SerieDetailInteractor implements ISerieDetail.model {
 
 
                 } else if (response.code() == 401) {
-                    presenter.showErrorNotAuthorized("Error de autenticación");
+                    presenter.showErrorNotAuthorized(Constants.TEXTO_UNAUTHORIZED);
                 } else if (response.code() == 404) {
                     presenter.showErrorNotFound("No se encontraron coincidencias con: ");
                 } else {
-                    Log.e(TAG, "algo ha salido muy mal");
+                    Log.e(TAG, Constants.TEXTO_ERROR);
 
                 }
             }
@@ -110,14 +104,13 @@ public class SerieDetailInteractor implements ISerieDetail.model {
 
     @Override
     public void getSerieDetail2(String token, String imdbId) {
-        SerieDetail1Data data = new SerieDetail1Data();
 
-        call2 = ServiceClient.createSerieService2().getDetailSerie2(imdbId, apikey, PLOT, "Bearer " + token);
+        call2 = ServiceClient.createSerieService2().getDetailSerie2(imdbId, APIKEY, PLOT, Constants.BEARER + token);
         call2.enqueue(new Callback<SerieDetail2>() {
             @Override
             public void onResponse(Call<SerieDetail2> call, Response<SerieDetail2> response) {
                 if (response.isSuccessful()) {
-                    //ObjSerieDetalle = response.body();
+
                     //mostrar propiedades a usar
                     Log.e(TAG, "" + response.body().getGenre());
                     Log.e(TAG, "" + response.body().getTotalSeasons());
@@ -134,11 +127,11 @@ public class SerieDetailInteractor implements ISerieDetail.model {
                     presenter.showDetail2(response.body(), totalSeasons);
                     Log.e(TAG, "servicio detalles 2 correcto");
                 } else if (response.code() == 401) {
-                    presenter.showErrorNotAuthorized("Error de autenticación");
+                    presenter.showErrorNotAuthorized(Constants.TEXTO_UNAUTHORIZED);
                 } else if (response.code() == 404) {
                     presenter.showErrorNotFound("No se encontraron mas detalles ");
                 } else {
-                    Log.e(TAG, "algo ha salido muy mal");
+                    Log.e(TAG, Constants.TEXTO_ERROR);
                 }
             }
 
@@ -152,7 +145,7 @@ public class SerieDetailInteractor implements ISerieDetail.model {
 
     @Override
     public void getEpisodes(int id, int numberSeason, String token) {
-        call3 = ServiceClient.createSerieService().getSeason(id, String.valueOf(numberSeason), "Bearer " + token);
+        call3 = ServiceClient.createSerieService().getSeason(id, String.valueOf(numberSeason), Constants.BEARER + token);
 
         call3.enqueue(new Callback<SerieSeasonData>() {
             @Override
@@ -160,7 +153,7 @@ public class SerieDetailInteractor implements ISerieDetail.model {
 
                 if (response.isSuccessful()) {
 
-                    listEpisodes = new ArrayList<Episode>();//crear ArrayList Vacio
+                    listEpisodes = new ArrayList<>();//crear ArrayList Vacio
                     listEpisodes.clear();//limpio el Arralist
 
                     Log.e(TAG, String.valueOf(response.body().getEpisodes()));
@@ -174,12 +167,12 @@ public class SerieDetailInteractor implements ISerieDetail.model {
                     presenter.showEpisodes(listEpisodes);
                     Log.e(TAG, "servicio 3 correcto");
 
-                }else if (response.code() == 401) {
-                    presenter.showErrorNotAuthorized("Error de autenticación");
+                } else if (response.code() == 401) {
+                    presenter.showErrorNotAuthorized(Constants.TEXTO_UNAUTHORIZED);
                 } else if (response.code() == 404) {
                     presenter.showErrorNotFound("No se encontraron episodios ");
                 } else {
-                    Log.e(TAG, "algo ha salido muy mal");
+                    Log.e(TAG, Constants.TEXTO_ERROR);
                 }
 
             }
@@ -194,29 +187,29 @@ public class SerieDetailInteractor implements ISerieDetail.model {
 
     @Override
     public void getActors(int id, String token) {
-        call4 = ServiceClient.createSerieService().getActors(id, "Bearer " + token);
+        call4 = ServiceClient.createSerieService().getActors(id, Constants.BEARER + token);
 
         call4.enqueue(new Callback<SerieActorData>() {
             @Override
             public void onResponse(Call<SerieActorData> call, Response<SerieActorData> response) {
-                listActors = new ArrayList<Actor>();//crear ArrayList Vacio
+                listActors = new ArrayList<>();//crear ArrayList Vacio
                 listActors.clear();//limpio el Arralist
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
 
-                    Log.e(TAG,String.valueOf(response.body().getActors()));
+                    Log.e(TAG, String.valueOf(response.body().getActors()));
                     for (Actor actors : response.body().getActors()) {
                         Log.e(TAG, " actor: " + actors.getName());
 
                         listActors.add(actors);
                     }
 
-                }else if (response.code() == 401) {
-                    presenter.showErrorNotAuthorized("Error de autenticación");
+                } else if (response.code() == 401) {
+                    presenter.showErrorNotAuthorized(Constants.TEXTO_UNAUTHORIZED);
                 } else if (response.code() == 404) {
                     presenter.showErrorNotFound("No se encontraron actores ");
                 } else {
-                    Log.e(TAG, "algo ha salido muy mal");
+                    Log.e(TAG, Constants.TEXTO_ERROR);
                 }
 
                 presenter.showActors(listActors);
@@ -224,7 +217,7 @@ public class SerieDetailInteractor implements ISerieDetail.model {
 
             @Override
             public void onFailure(Call<SerieActorData> call, Throwable t) {
-                Log.e(TAG,t.toString());
+                Log.e(TAG, t.toString());
                 presenter.showErrorApi(t.toString());
 
             }

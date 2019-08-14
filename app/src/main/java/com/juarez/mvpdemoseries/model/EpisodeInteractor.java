@@ -13,14 +13,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EpisodeInteractor implements IEpisode.model {
+public class EpisodeInteractor implements IEpisode.IModel {
 
-    private IEpisode.presenter presenter;
+    private IEpisode.IPresenter presenter;
     Call<SerieSeasonData> call3;
-    private String TAG = "SerieEpisodeFragment";
+    static final String TAG = "SerieEpisodeFragment";
     private ArrayList<Episode> listEpisodes;
 
-    public EpisodeInteractor(IEpisode.presenter presenter){
+    public EpisodeInteractor(IEpisode.IPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -34,7 +34,7 @@ public class EpisodeInteractor implements IEpisode.model {
 
                 if (response.isSuccessful()) {
 
-                    listEpisodes = new ArrayList<Episode>();//crear ArrayList Vacio
+                    listEpisodes = new ArrayList<>();//crear ArrayList Vacio
                     listEpisodes.clear();//limpio el Arralist
 
                     Log.e(TAG, String.valueOf(response.body().getEpisodes()));
@@ -48,10 +48,10 @@ public class EpisodeInteractor implements IEpisode.model {
                     presenter.showEpisodes(listEpisodes);
                     Log.e(TAG, "servicio 3 correcto");
 
-                }else if (response.code() == 401) {
-                    //presenter.showErrorNotAuthorized("Error de autenticación");
+                } else if (response.code() == 401) {
+                    presenter.showErrorNotAuthorized("Error de autenticación");
                 } else if (response.code() == 404) {
-                    //presenter.showErrorNotFound("No se encontraron episodios ");
+                    presenter.showErrorNotFound("No se encontraron episodios ");
                 } else {
                     Log.e(TAG, "algo ha salido muy mal");
                 }
@@ -61,7 +61,7 @@ public class EpisodeInteractor implements IEpisode.model {
             @Override
             public void onFailure(Call<SerieSeasonData> call, Throwable t) {
                 Log.e(TAG, t.toString());
-                //presenter.showErrorApi(t.toString());
+                presenter.showErrorApi(t.toString());
             }
         });
     }

@@ -1,7 +1,6 @@
 package com.juarez.mvpdemoseries.model.entity;
 
 import com.google.gson.annotations.SerializedName;
-import com.juarez.mvpdemoseries.model.entity.Serie;
 
 import java.util.List;
 

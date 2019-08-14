@@ -54,7 +54,6 @@
                 <Button
                     android:id="@+id/btnErase"
                     android:layout_width="50dp"
-                    android:onClick="eraseSearch"
                     android:layout_height="wrap_content"
                     android:background="@color/colorAccent"
                     android:foreground="@drawable/ic_close_black_24dp"
@@ -65,7 +64,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".85"
-                    android:onClick="searchSeriesApi"
                     android:background="@color/colorAccent"
                     android:foreground="@drawable/ic_search" />
 

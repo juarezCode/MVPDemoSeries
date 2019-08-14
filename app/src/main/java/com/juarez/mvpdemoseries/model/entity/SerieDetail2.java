@@ -1,14 +1,18 @@
 package com.juarez.mvpdemoseries.model.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SerieDetail2 {
-    private String Genre;
-    private String Poster;
+    @SerializedName("Genre")
+    private String genre;
+    @SerializedName("Poster")
+    private String poster;
     private String imdbRating;
     private String totalSeasons;
 
     public SerieDetail2(String genre, String poster, String imdbRating, String totalSeasons) {
-        Genre = genre;
-        Poster = poster;
+        this.genre = genre;
+        this.poster = poster;
         this.imdbRating = imdbRating;
         this.totalSeasons = totalSeasons;
     }
@@ -17,11 +21,11 @@ public class SerieDetail2 {
     }
 
     public String getGenre() {
-        return Genre;
+        return genre;
     }
 
     public String getPoster() {
-        return Poster;
+        return poster;
     }
 
     public String getImdbRating() {

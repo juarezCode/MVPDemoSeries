@@ -1,30 +1,26 @@
 package com.juarez.mvpdemoseries.model;
 
-import android.widget.Toast;
-
 import com.juarez.mvpdemoseries.interfaces.IActor;
 import com.juarez.mvpdemoseries.model.entity.Actor;
-import com.juarez.mvpdemoseries.view.activity.DetailActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ActorInteractor implements IActor.model {
+public class ActorInteractor implements IActor.IModel {
 
-    private IActor.presenter presenter;
-    private ArrayList<Actor> listActors;
+    private IActor.IPresenter presenter;
 
-    public ActorInteractor(IActor.presenter presenter) {
+    public ActorInteractor(IActor.IPresenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public void getActors() {
-        listActors = DetailActivity.listActors;
+    public void getActors(List<Actor> listActors) {
+        List<Actor> listActor = listActors;
 
-        if (listActors.size() == 0)
+        if (listActor.isEmpty())
             presenter.showErrorNotFound("no se encontraron actores");
         else
-            presenter.showActors(listActors);
+            presenter.showActors(listActor);
 
     }
 }

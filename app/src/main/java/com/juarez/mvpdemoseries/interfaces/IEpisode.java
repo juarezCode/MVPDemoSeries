@@ -6,18 +6,30 @@ import java.util.ArrayList;
 
 public interface IEpisode {
 
-    interface model {
+    interface IModel {
         void getEpisodes(int id, int numberSeason, String token);
     }
 
-    interface presenter {
+    interface IPresenter {
+        void showErrorNotFound(String notFound);
+
+        void showErrorNotAuthorized(String notAuthorized);
+
+        void showErrorApi(String error);
+
         void getEpisodes(int id, int numberSeason, String token);
 
         void showEpisodes(ArrayList<Episode> listEpisodes);
 
     }
 
-    interface view {
+    interface IView {
+        void showErrorNotFound(String notFound);
+
+        void showErrorNotAuthorized(String notAuthorized);
+
+        void showErrorApi(String error);
+
         void getEpisodes(int id, int numberSeason, String token);
 
         void showEpisodes(ArrayList<Episode> listEpisodes);

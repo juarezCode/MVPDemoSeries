@@ -6,13 +6,35 @@ public class User {
     private String username;
     private String token;
 
-    public User(String apikey, String userkey, String username) {
-        this.apikey = apikey;
-        this.userkey = userkey;
-        this.username = username;
+    public User() {
+        //empty contructor
     }
 
     public String getToken() {
         return token;
+    }
+
+    public void setApikey(String apikey) {
+        this.apikey = apikey;
+    }
+
+    public void setUserkey(String userkey) {
+        this.userkey = userkey;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getApikey() {
+        return apikey;
+    }
+
+    public String getUserkey() {
+        return userkey;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

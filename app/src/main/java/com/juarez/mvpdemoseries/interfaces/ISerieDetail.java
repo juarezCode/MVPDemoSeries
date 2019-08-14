@@ -1,18 +1,15 @@
 package com.juarez.mvpdemoseries.interfaces;
 
-import android.view.View;
-
 import com.juarez.mvpdemoseries.model.entity.Actor;
 import com.juarez.mvpdemoseries.model.entity.Episode;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail1;
 import com.juarez.mvpdemoseries.model.entity.SerieDetail2;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface ISerieDetail {
 
-    interface model {
+    interface IModel {
         //service 1 get serie details 1
         void cancelService();
 
@@ -28,7 +25,7 @@ public interface ISerieDetail {
         void getActors(int id, String token);
     }
 
-    interface presenter {
+    interface IPresenter {
         //service get serie details 1
         void getSerieDetail1(String token, int id);
 
@@ -63,7 +60,7 @@ public interface ISerieDetail {
 
     }
 
-    interface view {
+    interface IView {
 
         //service 1 get serie details 1
         void getSerieDetail1(String token, int id);

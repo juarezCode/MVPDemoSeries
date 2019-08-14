@@ -6,12 +6,12 @@ import android.util.Log;
 import com.juarez.mvpdemoseries.interfaces.ILogin;
 import com.juarez.mvpdemoseries.model.LoginInteractor;
 
-public class LoginPresenter implements ILogin.presenter {
-    private ILogin.view view;
-    private ILogin.model interactor;
-    private String TAG = "LoginPresenter";
+public class LoginPresenter implements ILogin.IPresenter {
+    private ILogin.IView view;
+    private ILogin.IModel interactor;
+    private static final String TAG = "LoginPresenter";
 
-    public LoginPresenter(ILogin.view view) {
+    public LoginPresenter(ILogin.IView view) {
         this.view = view;
         interactor = new LoginInteractor(this);
     }

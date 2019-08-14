@@ -10,6 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceClient {
 
+    private ServiceClient() {
+    }
+
     public static ILoginService createLoginService() {
         return getSerieClient().create(ILoginService.class);
     }
@@ -21,7 +24,6 @@ public class ServiceClient {
     public static ISerieService createSerieService2() {
         return getSerieClient2().create(ISerieService.class);
     }
-
 
 
     private static final String BASE_URL = "https://api.thetvdb.com/";
@@ -36,6 +38,7 @@ public class ServiceClient {
                 .client(provideOkHttp())
                 .build();
     }
+
     public static Retrofit getSerieClient2() {
 
         return new Retrofit.Builder()

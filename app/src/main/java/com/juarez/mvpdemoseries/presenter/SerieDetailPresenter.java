@@ -1,6 +1,5 @@
 package com.juarez.mvpdemoseries.presenter;
 
-import com.juarez.mvpdemoseries.interfaces.IActor;
 import com.juarez.mvpdemoseries.interfaces.ISerieDetail;
 import com.juarez.mvpdemoseries.model.SerieDetailInteractor;
 import com.juarez.mvpdemoseries.model.entity.Actor;
@@ -10,12 +9,12 @@ import com.juarez.mvpdemoseries.model.entity.SerieDetail2;
 
 import java.util.ArrayList;
 
-public class SerieDetailPresenter implements ISerieDetail.presenter {
+public class SerieDetailPresenter implements ISerieDetail.IPresenter {
 
-    private ISerieDetail.view view;
-    private ISerieDetail.model interactor;
+    private ISerieDetail.IView view;
+    private ISerieDetail.IModel interactor;
 
-    public SerieDetailPresenter(ISerieDetail.view view) {
+    public SerieDetailPresenter(ISerieDetail.IView view) {
         this.view = view;
         interactor = new SerieDetailInteractor(this);
     }
